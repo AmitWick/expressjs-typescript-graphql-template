@@ -1,5 +1,5 @@
 import express from "express";
-import yoga from "./graphql/yoga.js";
+import yoga from "./config/yoga.js";
 import globalMiddlewares from "./middlewares/globalMiddlewares.js";
 import globalErrorMiddleware from "./middlewares/globalErrorMiddleware.js";
 

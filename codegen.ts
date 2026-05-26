@@ -8,7 +8,7 @@ const config: CodegenConfig = {
       plugins: ["typescript", "typescript-resolvers"],
       config: {
         // path will be relative to graphql.ts inside of codegen folder
-        contextType: "../graphql/graphQLContext.js#GraphQLContext",
+        contextType: "../graphql/context/graphQLContext.js#GraphQLContext",
       },
     },
   },

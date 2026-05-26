@@ -1,13 +1,13 @@
 // src/graphql/yoga.ts
 import { createYoga } from "graphql-yoga";
-import graphQLSchema from "./graphQLSchema.js";
+import graphQLSchema from "../graphql/utils/graphQLSchema.js";
 import environment from "../utils/environment.js";
 import { costLimitPlugin } from "@escape.tech/graphql-armor-cost-limit";
 import { maxTokensPlugin } from "@escape.tech/graphql-armor-max-tokens";
 import { maxDepthPlugin } from "@escape.tech/graphql-armor-max-depth";
 import { maxDirectivesPlugin } from "@escape.tech/graphql-armor-max-directives";
 import { maxAliasesPlugin } from "@escape.tech/graphql-armor-max-aliases";
-import graphQLContext from "./graphQLContext.js";
+import graphQLContext from "../graphql/context/graphQLContext.js";
 import { useDisableIntrospection } from "@graphql-yoga/plugin-disable-introspection";
 
 const yoga = createYoga({

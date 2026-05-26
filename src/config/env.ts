@@ -12,4 +12,5 @@ export const envSchema = z.object({
   CLIENT_URL: z.url().default("http://localhost:3000"),
   DATABASE_URL: z.string(),
   INTROSPECTION_SECRET: z.string(),
+  REDIS_URL: z.string(),
 });
