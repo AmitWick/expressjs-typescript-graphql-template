@@ -1,0 +1,52 @@
+Task 1:
+- create .env file, copy text from env.example.txt and paste into .env file
+
+
+Task 2:
+- create all project related file inside src folder
+
+
+GraphQL Related :
+
+- whenever create/update graphql schema inside src/graphql/modules/**
+- npm run codegen
+- it will create a typesafe resolvers based on schema inside src/generated/graphql.ts folder, this typesafe help in writing Resolvers inside modules
+
+- for typesafe of GraphQL Context
+- in codegen.ts - contextType: "@/types/types.d#GraphQLContext",
+- path for Context Type
+- any kind of update Context Value or type, npm run codegen
+
+
+
+Prisma with Neon DB or other DB steps related:
+- package and adapter related to Prisma install (see package.json)
+- npx prisma init (create prisma/schema.prisma and prisma.config.ts)
+- in prisma.config.ts, add DATABASE_URL without pooling or DIRECT_URL
+- in prisma/schema.prisma, create schema of User or Post
+- npm run db:generate (create prisma/migration for saving schema copy locally for prisma crud operation and src/generated folder having setup in it)
+- create a prisma.ts file and do remaining setup and add adapter corresponding to DB and DATABASE_URL
+- npm run db:migrate (send same schema to remote DB for syncing)
+- npm run db:studio (see Table locally in website)
+
+
+migrate changes DB - generate changes TypeScript code
+- If new schema created/updated in prisma/schema.graphql, 
+- npm run db:migrate 
+- then, npm run db:generate
+
+
+if DB changed :
+- delete generated and migration folder locally
+- update DATABASE_URL in .env file and also update adapter in prisma.ts
+- npm run db:generate
+- add schema in schema.prisma
+- npm run db:migrate 
+
+
+MOST IMPORTANT AFTER DB CREATED:
+- npm run codegen - update typesafe for graphQL resolvers
+
+
+Production Related:
+- for Production, first npm run build, then npm run start 

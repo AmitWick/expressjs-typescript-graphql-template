@@ -1,0 +1,28 @@
+scalar DateTime
+
+type Query {
+  postById(id: ID!): Post
+  posts: [Post!]!
+}
+
+input CreatePostInput {
+  title: String!
+  comment: String!
+}
+
+type Mutation {
+  createPost(input: CreatePostInput!): Post!
+}
+
+type Post {
+  id: ID!
+
+  title: String!
+  comment: String!
+
+  createdAt: DateTime!
+  updatedAt: DateTime!
+
+  userId: String!
+  user: User
+}
