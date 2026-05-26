@@ -2,7 +2,7 @@ scalar DateTime
 
 type Query {
   userById(id: ID!): User
-  users: [User!]!
+  users: [User]
 }
 
 input CreateUserInput {
@@ -22,5 +22,5 @@ type User {
   createdAt: DateTime!
   updatedAt: DateTime!
 
-  posts: [Post!]!
+  posts: [Post]
 }

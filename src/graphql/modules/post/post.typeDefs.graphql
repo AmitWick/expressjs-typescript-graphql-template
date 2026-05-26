@@ -2,7 +2,7 @@ scalar DateTime
 
 type Query {
   postById(id: ID!): Post
-  posts: [Post!]!
+  posts: [Post]!
 }
 
 input CreatePostInput {

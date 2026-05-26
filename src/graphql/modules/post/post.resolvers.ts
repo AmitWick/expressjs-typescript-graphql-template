@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { Resolvers } from "@/codegen/graphql.js";
+import { postRedisQuery } from "@/graphql/services/post/post.db.js";
 
 const createPostSchema = z.object({
   title: z.string().min(2),
@@ -11,11 +12,12 @@ export const postResolvers: Resolvers = {
     createPost: async (__, arg, ctx) => {
       const validated = createPostSchema.parse(arg.input);
 
-      const newPost = await ctx.prisma.post.create({
-        data: {
-          title: validated.title,
-          comment: validated.comment,
-          userId: "cmpl2i2ep00021kol49v4c3w7",
+      const newPost = await postRedisQuery.set({
+        ...validated,
+        user: {
+          connect: {
+            id: "cmpl2i2ep00021kol49v4c3w7",
+          },
         },
       });
 
@@ -24,7 +26,7 @@ export const postResolvers: Resolvers = {
   },
   Query: {
     postById: async (parent, arg, ctx) => {
-      const post = await ctx.prisma.post.findFirst({
+      const post = await postRedisQuery.getFirst(arg.id, {
         where: {
           id: arg.id,
         },
@@ -32,7 +34,7 @@ export const postResolvers: Resolvers = {
       return post;
     },
     posts: async (parent, arg, ctx) => {
-      const allPosts = await ctx.prisma.post.findMany();
+      const allPosts = await postRedisQuery.getMany([], {});
       return allPosts;
     },
   },

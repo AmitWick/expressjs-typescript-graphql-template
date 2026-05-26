@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { Resolvers } from "@/codegen/graphql.js";
+import { userRedisQuery } from "@/graphql/services/user/user.db.js";
 
 const createUserSchema = z.object({
   name: z.string().min(2),
@@ -11,21 +12,16 @@ export const userResolvers: Resolvers = {
     userById: async (_, arg, ctx) => {
       //   if (!ctx.user) return null;
 
-      const user = await ctx.prisma.user.findFirst({
+      const user = await userRedisQuery.getFirst(arg.id, {
         where: {
           id: arg.id,
         },
       });
-      // const user = await ctx.prisma.user.findFirst({
-      //   where: {
-      //     id: arg.id,
-      //   },
-      // });
 
       return user;
     },
     users: async (parent, arg, ctx) => {
-      const allUsers = await ctx.prisma.user.findMany();
+      const allUsers = await userRedisQuery.getMany([], {});
       return allUsers;
     },
   },
@@ -41,14 +37,10 @@ export const userResolvers: Resolvers = {
     },
   },
   Mutation: {
-    createUser: async (_, arg, ctx) => {
+    createUser: async (_, arg) => {
       // it will throw error if parse is not correct
       const validated = createUserSchema.parse(arg.input);
-
-      const newUser = await ctx.prisma.user.create({
-        data: validated,
-      });
-
+      const newUser = await userRedisQuery.set(validated);
       return newUser;
     },
   },

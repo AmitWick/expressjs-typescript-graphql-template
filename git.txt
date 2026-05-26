@@ -1,0 +1,12 @@
+First Time:
+- git add .
+- git commit -m "Initial Commit"
+- git tag v1.0.0
+- git push --tags
+
+
+Next Time:
+- git commit from extension
+- npm version patch/minor/major
+- git push --tags
+
