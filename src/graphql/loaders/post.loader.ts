@@ -1,9 +1,9 @@
 import DataLoader from "dataloader";
-import prisma from "@/config/prisma.js";
+import { postRedisQuery } from "../services/post/post.db.js";
 
 export const createPostsByUserIdLoader = () =>
   new DataLoader(async (userIds: readonly string[]) => {
-    const posts = await prisma.post.findMany({
+    const posts = await postRedisQuery.getMany(userIds as string[], {
       where: {
         userId: { in: userIds as string[] },
       },
@@ -17,6 +17,7 @@ export const createPostsByUserIdLoader = () =>
     }
 
     for (const post of posts) {
+      if (!post) continue;
       postsMap.get(post.userId)?.push(post);
     }
 

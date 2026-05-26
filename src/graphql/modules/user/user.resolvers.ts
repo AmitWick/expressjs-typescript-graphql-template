@@ -11,7 +11,6 @@ export const userResolvers: Resolvers = {
   Query: {
     userById: async (_, arg, ctx) => {
       //   if (!ctx.user) return null;
-
       const user = await userRedisQuery.getFirst(arg.id, {
         where: {
           id: arg.id,
@@ -27,12 +26,6 @@ export const userResolvers: Resolvers = {
   },
   User: {
     posts: async (parent, arg, ctx) => {
-      // const userPosts = await ctx.prisma.post.findMany({
-      //   where: {
-      //     userId: parent.id,
-      //   },
-      // });
-
       return ctx.loaders.postsByUserIdLoader.load(parent.id);
     },
   },
