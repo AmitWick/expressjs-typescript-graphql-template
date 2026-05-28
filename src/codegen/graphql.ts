@@ -53,9 +53,11 @@ export type Post = {
 export type Query = {
   __typename?: 'Query';
   postById?: Maybe<Post>;
-  posts: Array<Maybe<Post>>;
+  postByIds: Array<Maybe<Post>>;
+  postsByUserId: Array<Maybe<Post>>;
   userById?: Maybe<User>;
-  users?: Maybe<Array<Maybe<User>>>;
+  userByIds: Array<Maybe<User>>;
+  userByPages: Array<Maybe<User>>;
 };
 
 
@@ -64,8 +66,29 @@ export type QueryPostByIdArgs = {
 };
 
 
+export type QueryPostByIdsArgs = {
+  ids: Array<Scalars['ID']['input']>;
+};
+
+
+export type QueryPostsByUserIdArgs = {
+  id: Scalars['ID']['input'];
+  page: Scalars['Int']['input'];
+};
+
+
 export type QueryUserByIdArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type QueryUserByIdsArgs = {
+  ids: Array<Scalars['ID']['input']>;
+};
+
+
+export type QueryUserByPagesArgs = {
+  page: Scalars['Int']['input'];
 };
 
 export type User = {
@@ -156,6 +179,7 @@ export type ResolversTypes = {
   CreateUserInput: CreateUserInput;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<Record<PropertyKey, never>>;
   Post: ResolverTypeWrapper<Post>;
   Query: ResolverTypeWrapper<Record<PropertyKey, never>>;
@@ -170,6 +194,7 @@ export type ResolversParentTypes = {
   CreateUserInput: CreateUserInput;
   DateTime: Scalars['DateTime']['output'];
   ID: Scalars['ID']['output'];
+  Int: Scalars['Int']['output'];
   Mutation: Record<PropertyKey, never>;
   Post: Post;
   Query: Record<PropertyKey, never>;
@@ -198,9 +223,11 @@ export type PostResolvers<ContextType = GraphQLContext, ParentType extends Resol
 
 export type QueryResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   postById?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<QueryPostByIdArgs, 'id'>>;
-  posts?: Resolver<Array<Maybe<ResolversTypes['Post']>>, ParentType, ContextType>;
+  postByIds?: Resolver<Array<Maybe<ResolversTypes['Post']>>, ParentType, ContextType, RequireFields<QueryPostByIdsArgs, 'ids'>>;
+  postsByUserId?: Resolver<Array<Maybe<ResolversTypes['Post']>>, ParentType, ContextType, RequireFields<QueryPostsByUserIdArgs, 'id' | 'page'>>;
   userById?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserByIdArgs, 'id'>>;
-  users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
+  userByIds?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType, RequireFields<QueryUserByIdsArgs, 'ids'>>;
+  userByPages?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType, RequireFields<QueryUserByPagesArgs, 'page'>>;
 };
 
 export type UserResolvers<ContextType = GraphQLContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {

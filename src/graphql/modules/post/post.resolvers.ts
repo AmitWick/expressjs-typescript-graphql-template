@@ -1,10 +1,20 @@
 import { z } from "zod";
 import { Resolvers } from "@/codegen/graphql.js";
-import { postRedisQuery } from "@/graphql/services/post/post.db.js";
+import {
+  createPostDB,
+  getPostByID,
+  getPostsByIDs,
+  getPostsByUserId,
+} from "@/graphql/services/post/post.service.js";
 
 const createPostSchema = z.object({
   title: z.string().min(2),
   comment: z.string().min(2),
+});
+
+const postsByUserIdSchema = z.object({
+  id: z.string().min(2),
+  page: z.int().min(1),
 });
 
 export const postResolvers: Resolvers = {
@@ -12,7 +22,7 @@ export const postResolvers: Resolvers = {
     createPost: async (__, arg, ctx) => {
       const validated = createPostSchema.parse(arg.input);
 
-      const newPost = await postRedisQuery.set({
+      const newPost = await createPostDB({
         ...validated,
         user: {
           connect: {
@@ -26,16 +36,19 @@ export const postResolvers: Resolvers = {
   },
   Query: {
     postById: async (parent, arg, ctx) => {
-      const post = await postRedisQuery.getFirst(arg.id, {
-        where: {
-          id: arg.id,
-        },
-      });
+      if (!arg.id) throw new Error("Post Id is not provided");
+      const post = await getPostByID(arg.id);
       return post;
     },
-    posts: async (parent, arg, ctx) => {
-      const allPosts = await postRedisQuery.getMany([], {});
+    postByIds: async (parent, arg, ctx) => {
+      if (arg.ids.length === 0) throw new Error("Ids is not provided");
+
+      const allPosts = await getPostsByIDs(arg.ids);
       return allPosts;
+    },
+    postsByUserId: async (parent, arg, ctx) => {
+      const validated = postsByUserIdSchema.parse(arg);
+      return getPostsByUserId(validated.id, validated.page);
     },
   },
   Post: {

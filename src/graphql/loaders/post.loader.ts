@@ -1,13 +1,9 @@
 import DataLoader from "dataloader";
-import { postRedisQuery } from "../services/post/post.db.js";
+import { getPostsByUserIds } from "../services/post/post.service.js";
 
 export const createPostsByUserIdLoader = () =>
   new DataLoader(async (userIds: readonly string[]) => {
-    const posts = await postRedisQuery.getMany(userIds as string[], {
-      where: {
-        userId: { in: userIds as string[] },
-      },
-    });
+    const posts = await getPostsByUserIds(userIds as string[]);
 
     // Group posts by userId
     const postsMap = new Map<string, typeof posts>();
@@ -22,5 +18,7 @@ export const createPostsByUserIdLoader = () =>
     }
 
     // Return posts in same order as userIds
-    return userIds.map((id) => postsMap.get(id) || []);
+    const results = userIds.map((id) => postsMap.get(id) || []);
+
+    return results;
   });

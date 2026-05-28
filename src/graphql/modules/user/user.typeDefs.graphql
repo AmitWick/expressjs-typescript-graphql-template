@@ -2,7 +2,8 @@ scalar DateTime
 
 type Query {
   userById(id: ID!): User
-  users: [User]
+  userByIds(ids: [ID!]!): [User]!
+  userByPages(page: Int!): [User]!
 }
 
 input CreateUserInput {
