@@ -5,7 +5,7 @@ import {
   setCache,
   setManyCache,
 } from "@/cache/redis.helpers.js";
-import { Prisma, User } from "@/generated/prisma/index.js";
+import { Prisma, User } from "@prisma/client";
 import {
   createUser,
   findUserById,

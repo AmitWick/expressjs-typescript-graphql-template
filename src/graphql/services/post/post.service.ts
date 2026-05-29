@@ -5,7 +5,7 @@ import {
   setCache,
   setManyCache,
 } from "@/cache/redis.helpers.js";
-import { Post, Prisma } from "@/generated/prisma/index.js";
+import { Post, Prisma } from "@prisma/client";
 import {
   createPost,
   findPostById,

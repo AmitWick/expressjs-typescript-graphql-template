@@ -4,13 +4,10 @@ import {
   SessionAuthObject,
 } from "@clerk/express";
 import type { CreateLoaders } from "../loaders/loaders.js";
-import prisma from "@/config/prisma.js";
-import { PrismaClient } from "@/generated/prisma/client.js";
 import createLoaders from "../loaders/loaders.js";
 
 export interface GraphQLContext {
   user: SessionAuthObject;
-  prisma: PrismaClient;
   loaders: CreateLoaders;
 }
 
@@ -24,7 +21,6 @@ const graphQLContext = (ctx: any): GraphQLContext => {
 
   return {
     user,
-    prisma,
     loaders: createLoaders(),
   };
 };

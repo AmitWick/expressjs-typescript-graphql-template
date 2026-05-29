@@ -1,5 +1,5 @@
 import DataLoader from "dataloader";
-import { User } from "@/generated/prisma/index.js";
+import { User } from "@prisma/client";
 import { getUsersByIDs } from "../services/user/user.service.js";
 
 export const createUserLoader = () =>
