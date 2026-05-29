@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
+    "build": "tsc && tsc-alias",
     "start": "node dist/server.js",
     "codegen": "graphql-codegen",
     "db:generate": "prisma generate",
@@ -60,6 +60,7 @@
     "@types/graphql-depth-limit": "^1.1.6",
     "@types/node": "^25.9.1",
     "nodemon": "^3.1.14",
+    "tsc-alias": "^1.8.17",
     "tsx": "^4.22.3",
     "typescript": "^6.0.3"
   }
