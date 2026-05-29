@@ -7,8 +7,9 @@ import { maxTokensPlugin } from "@escape.tech/graphql-armor-max-tokens";
 import { maxDepthPlugin } from "@escape.tech/graphql-armor-max-depth";
 import { maxDirectivesPlugin } from "@escape.tech/graphql-armor-max-directives";
 import { maxAliasesPlugin } from "@escape.tech/graphql-armor-max-aliases";
-import graphQLContext from "../graphql/context/graphQLContext.js";
+import graphQLContext from "../context/graphQLContext.js";
 import { useDisableIntrospection } from "@graphql-yoga/plugin-disable-introspection";
+import rateLimitMiddleware from "@/middlewares/rateLimitMiddleware.js";
 
 const yoga = createYoga({
   cors: {
@@ -41,6 +42,15 @@ const yoga = createYoga({
         );
       },
     }),
+    {
+      async onExecute({ args }: any) {
+        try {
+          await rateLimitMiddleware(args.contextValue);
+        } catch (error) {
+          throw error;
+        }
+      },
+    },
   ],
 });
 

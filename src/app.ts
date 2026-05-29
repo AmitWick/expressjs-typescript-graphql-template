@@ -7,6 +7,8 @@ const app = express();
 
 globalMiddlewares(app);
 
+app.set("trust proxy", 1);
+
 app.get("/", (req, res) => {
   res.send("Home Page");
 });

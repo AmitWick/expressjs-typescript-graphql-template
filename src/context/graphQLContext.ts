@@ -3,10 +3,11 @@ import {
   getAuth,
   SessionAuthObject,
 } from "@clerk/express";
-import type { CreateLoaders } from "../loaders/loaders.js";
-import createLoaders from "../loaders/loaders.js";
+import type { CreateLoaders } from "../graphql/loaders/loaders.js";
+import createLoaders from "../graphql/loaders/loaders.js";
 
 export interface GraphQLContext {
+  req: ExpressRequestWithAuth;
   user: SessionAuthObject;
   loaders: CreateLoaders;
 }
@@ -20,6 +21,7 @@ const graphQLContext = (ctx: any): GraphQLContext => {
   //   });
 
   return {
+    req: ctx.req,
     user,
     loaders: createLoaders(),
   };
