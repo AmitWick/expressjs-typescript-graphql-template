@@ -21,9 +21,7 @@ const yoga = createYoga({
     methods: ["POST"],
   },
   schema: graphQLSchema,
-  maskedErrors: {
-    isDev: environment.NODE_ENV !== "production",
-  },
+  maskedErrors: environment.NODE_ENV === "development",
   context: graphQLContext,
   plugins: [
     costLimitPlugin(),

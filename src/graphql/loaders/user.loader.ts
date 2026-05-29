@@ -1,5 +1,4 @@
 import DataLoader from "dataloader";
-import { userRedisQuery } from "../services/user/user.db.js";
 import { User } from "@/generated/prisma/index.js";
 import { getUsersByIDs } from "../services/user/user.service.js";
 
