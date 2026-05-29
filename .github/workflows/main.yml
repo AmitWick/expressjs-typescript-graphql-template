@@ -32,3 +32,5 @@ jobs:
           context: .
           push: true
           tags: kamit6337/expressjs-typescript-graphql-template:latest
+          build-args: |
+            DATABASE_URL=postgresql://dummy:dummy@localhost:5432/dummy
